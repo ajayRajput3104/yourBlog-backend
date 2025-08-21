@@ -24,16 +24,21 @@ app.use(express.json({ limit: "1mb" }));
 app.use(express.urlencoded({ extended: true }));
 
 //CORS setup (local + production)
-app.use(
-  cors({
-    origin: ["http://localhost:5173", env.frontendOrigin],
-    credentials: true,
-  })
-);
+// app.use(
+//   cors({
+//     origin: ["http://localhost:5173/", env.frontendOrigin],
+//     credentials: true,
+//   })
+// );
+app.use(cors());
 
 // 🔍 Request logger - add here
 app.use((req, res, next) => {
   console.log(req.method, req.url, req.body);
+  next();
+});
+app.use((req, res, next) => {
+  console.log("Origin header:", req.headers.origin);
   next();
 });
 
